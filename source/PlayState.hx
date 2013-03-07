@@ -24,6 +24,8 @@ class PlayState extends FlxState
 	private var _bullets:FlxGroup;
 	private var _bullets_charge:FlxGroup;
 	
+	private var _bullets_all:FlxGroup;
+	
 	
 	override public function create():Void
 	{
@@ -57,8 +59,7 @@ class PlayState extends FlxState
 		add(player);
 		
 		
-		
-		gun = new FlxSprite(200, 160, "assets/sprites/gun.png");
+		gun = new FlxSprite(200, 160, "assets/sprites/gun.png");		//Get rid of this, have player sprite be upper & lower?
 		add(gun);
 		
 		/*TileMap of stuff that goes over the player
@@ -69,6 +70,11 @@ class PlayState extends FlxState
 		
 		grain = new FlxSprite(0, 0, "assets/sprites/grain.png");
 		add(grain);
+		
+		_bullets_all = new FlxGroup();									//Helper FlxGroup for all bullets to collide with world.
+		_bullets_all.add(_bullets);
+		_bullets_all.add(_bullets_charge);
+		add(_bullets_all);
 		
 		
 	}
@@ -84,14 +90,14 @@ class PlayState extends FlxState
 		gun.x = player.x+15;
 		gun.y = player.y+9;
 		
-	
-	
+		
 		if (FlxG.keys.justReleased("G"))
 		{	grain.visible = !grain.visible;	}
 		
+		
 		FlxG.collide(player, map);
-		FlxG.collide(_bullets, map);
-
+		FlxG.collide(_bullets_all, map);
+		
 	}
 	
 	

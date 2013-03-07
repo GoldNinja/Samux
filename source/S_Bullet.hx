@@ -1,7 +1,6 @@
 package ;
 /** @author Gold_Ninja */
 
-import nme.filters.GlowFilter;
 import org.flixel.FlxSprite;
 import org.flixel.FlxPoint;
 
@@ -9,23 +8,16 @@ class S_Bullet extends FlxSprite
 {
 	private var speed:Int;
 	
-	private var glow:GlowFilter;
-	
-	public function create():Void
-	{
-		glow = new GlowFilter(0xFF0000, 1, 50, 50, 1.5, 1);
-		addFilter(glow, new FlxPoint(50, 50));
-	}
-	
 	public function new():Void
 	{	super();
 		
 		loadGraphic("assets/sprites/S_bullet.png", true, false, 4, 2);
 		
+		
 		addAnimation("flashing", [0,1,2], 6, true);
 		play("flashing");
 		
-		speed = 400;							//400
+		speed = 800;							//800
 		
 	}
 	
