@@ -10,15 +10,15 @@ class S_Bullet_Charge extends FlxSprite
 	private var speed:Int;
 	
 	private var glow:GlowFilter;
-	private var fsfd:native.filters.GlowFilter;
+	
 	
 	public function new():Void
 	{	super();
 		
 		loadGraphic("assets/sprites/S_bullet.png", true, false, 4, 2);
 		
-		fsfd = new GlowFilter(0xFF0000, 1, 50, 50, 1.5, 1);
-		addFilter(fsfd, new FlxPoint(50, 50));
+		glow = new GlowFilter(0xFF0000, 1, 50, 50, 1.5, 1);
+		addFilter(glow, new FlxPoint(50, 50));
 		
 		
 		addAnimation("flashing", [0,1,2], 6, true);
