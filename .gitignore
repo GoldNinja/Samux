@@ -164,4 +164,4 @@ pip-log.txt
 
 # Compiled binaries folder
 export/
-assets/# Raw Sprites/
+assets/
