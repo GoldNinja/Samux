@@ -11,12 +11,11 @@ class S_Bullet_Charge extends FlxSprite
 	public function new():Void
 	{	super();
 		
-		loadGraphic("assets/sprites/S_bullet.png", true, false, 4, 2);
+		loadGraphic("assets/sprites/S_bullet_charge.png", true, false, 8, 4);
 		
 		
 		addAnimation("flashing", [0,1,2], 6, true);
 		play("flashing");
-		
 		
 		speed = 400;
 		
@@ -30,7 +29,6 @@ class S_Bullet_Charge extends FlxSprite
 		{
 			exists = false;
 		}
-		
 		
 		
 	}

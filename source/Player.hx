@@ -9,9 +9,10 @@ import org.flixel.system.FlxAnim;
 import org.flixel.FlxG;
 
 class Player extends FlxSprite
-{	private var _jump:Float = 0;
-	private var _jumpTimer:Float = 0;
-	private var _jumpReset:Int = 1;
+{	private var jump:Float;
+	private var jumpLimit:Float = 0.10;
+	private var jumpOK:Bool = true;
+	
 	private var _aim:String = "R";
 	
 	private var charge:Float = 0;
@@ -23,8 +24,8 @@ class Player extends FlxSprite
 	
 	public function new(px:Int,py:Int,Bullets:FlxGroup,Chargeshot:FlxGroup):Void
 	{	super(px, py);
-		acceleration.y = 200;
-		maxVelocity.y = 300;
+		acceleration.y = 1200;
+		maxVelocity.y = 250;
 		
 		_bullets = Bullets;
 		_bullets_charge = Chargeshot;
@@ -60,9 +61,16 @@ class Player extends FlxSprite
 		
 		velocity.x = 0;
 		
-		//SHOOTING
+		//*******************************************
+		//*											*
+		//*		SHOOTING							*
+		//*											*
+		//*******************************************
+		
 		if(FlxG.keys.justPressed("C"))
 		{	getMidpoint(_point);
+			_point.x = _point.x + 9;
+			_point.y = _point.y - 3;
 			cast(_bullets.recycle(S_Bullet), S_Bullet).shoot(_point, _aim);
 		}
 		
@@ -72,60 +80,56 @@ class Player extends FlxSprite
 		}
 		
 		if (FlxG.keys.justReleased("C"))
-		{	
-			if (charge > 1.5)
+		{	if (charge > 1.1)
 			{	getMidpoint(_point);
+				_point.x = _point.x + 9;
+				_point.y = _point.y - 3;
 				cast(_bullets_charge.recycle(S_Bullet_Charge), S_Bullet_Charge).shoot(_point, _aim);
 			}
-			
 			charge = 0;
-			
 		}
 		
+		//*******************************************
+		//*											*
+		//*		JUMPING								*
+		//*											*
+		//*******************************************
 		
-		
-		if((_jump >= 0) && (FlxG.keys.X) && (_jumpReset == 1))				//Horrible jumping
-		{	_jump += FlxG.elapsed;
-			if (_jump > 0.2) 
-			{	_jump = -1;
-				_jumpTimer = 0;
-				_jumpReset = 0;	}
+		if (jump >= 0 && FlxG.keys.X && jumpOK)
+		{	jump += FlxG.elapsed;
+			if (jump > jumpLimit)
+			{	jump = -1;
+				jumpOK = false; }
 		}
 		else
-		{	_jump = -1;	}
-		if (FlxG.keys.justReleased("X"))
-		{	_jumpReset = 1;	}
+		{	jump = -1;	}
 		
-		
-		if (_jumpTimer > 0.2)
-		{	_jump = -1;	}
-		
-		if (_jump > 0)
-		{	_jumpTimer += FlxG.elapsed;
-		
-			if(_jump < 0.04)
-			{	velocity.y = -180;	}			//This is the minimum speed of the jump
+		if (jump > 0)
+		{	if (jump < 0.05)
+			{	velocity.y = -maxVelocity.y*0.65;	}
 			else
-			{	acceleration.y = 50;	}		//The general acceleration of the jump
-        }
-		else
-		{	velocity.y = 200;	}				//Make the character fall after the jump button is released
+			{	velocity.y = -maxVelocity.y;	}
+		}
 		
 		if (this.isTouching(FlxObject.FLOOR))
-		{	_jumpTimer = 0;
-			_jump = 0;
-			
-		}
+		{	jump = 0;	}
+		
+		if (FlxG.keys.justReleased("X"))
+		{	jumpOK = true;	}
 		
 		
+		//*******************************************
+		//*											*
+		//*		WALKING								*
+		//*											*
+		//*******************************************
 		
-		
-		if (FlxG.keys.RIGHT)				//Walking
-		{	velocity.x = 80;
+		if (FlxG.keys.RIGHT)
+		{	velocity.x = 100;
 			play("walkR");
 			_aim = "R";	}
 		if (FlxG.keys.LEFT)
-		{	velocity.x = -80;
+		{	velocity.x = -100;
 			play("walkL");
 			_aim = "L";	}
 		
@@ -135,6 +139,7 @@ class Player extends FlxSprite
 		{	play("idleL");	}
 		
 		super.update();
+		
 		
 		
 		

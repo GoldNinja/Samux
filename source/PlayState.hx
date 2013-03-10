@@ -16,7 +16,6 @@ class PlayState extends FlxState
 {
 	private var bg_stars:FlxSprite;
 	private var player:Player;
-	private var gun:FlxSprite;
 	private var grain:FlxSprite;
 	private var fpsText:FlxText;
 	private var map:FlxTilemap;
@@ -59,9 +58,6 @@ class PlayState extends FlxState
 		add(player);
 		
 		
-		gun = new FlxSprite(200, 160, "assets/sprites/gun.png");		//Get rid of this, have player sprite be upper & lower?
-		add(gun);
-		
 		/*TileMap of stuff that goes over the player
 		map = new FlxTilemap();
 		map.loadMap(Assets.getText("assets/csv/lvl_1.csv"), "assets/sprites/Tiles01.png", 16, 16, 0, 0, 1, 1);
@@ -87,12 +83,15 @@ class PlayState extends FlxState
 	override public function update():Void
 	{	super.update();
 		
-		gun.x = player.x+15;
-		gun.y = player.y+9;
 		
 		
 		if (FlxG.keys.justReleased("G"))
 		{	grain.visible = !grain.visible;	}
+		
+		if (FlxG.keys.justReleased("H"))
+		{	FlxG.timeScale = 0.5;	}
+		if (FlxG.keys.justReleased("J"))
+		{	FlxG.timeScale = 1;	}
 		
 		
 		FlxG.collide(player, map);
