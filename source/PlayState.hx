@@ -20,8 +20,11 @@ class PlayState extends FlxState
 	private var fpsText:FlxText;
 	private var map:FlxTilemap;
 	private var map_bg:FlxTilemap;
+	
 	private var _bullets:FlxGroup;
 	private var _bullets_charge:FlxGroup;
+	private var _bullets_explode:FlxGroup;
+	
 	
 	private var _bullets_all:FlxGroup;
 	
@@ -54,6 +57,10 @@ class PlayState extends FlxState
 		_bullets_charge.maxSize = 20;
 		add(_bullets_charge);
 		
+		_bullets_explode = new FlxGroup();
+		_bullets_explode.maxSize = 10;
+		add(_bullets_explode);
+		
 		player = new Player(200, 160, _bullets, _bullets_charge);
 		add(player);
 		
@@ -81,11 +88,9 @@ class PlayState extends FlxState
 	}
 
 	override public function update():Void
-	{	super.update();
+	{	
 		
-		
-		
-		if (FlxG.keys.justReleased("G"))
+		if (FlxG.keys.justReleased("G"))						//TEMP STUFF FOR FAFFING ABOUT
 		{	grain.visible = !grain.visible;	}
 		
 		if (FlxG.keys.justReleased("H"))
@@ -94,12 +99,15 @@ class PlayState extends FlxState
 		{	FlxG.timeScale = 1;	}
 		
 		
+		
+		
+		
+		
 		FlxG.collide(player, map);
 		FlxG.collide(_bullets_all, map);
+		super.update();
 		
 	}
-	
-	
 	
 	
 }

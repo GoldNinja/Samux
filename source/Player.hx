@@ -14,7 +14,8 @@ class Player extends FlxSprite
 	private var jumpOK:Bool = true;
 	
 	private var _aim:String = "R";
-	
+	private var _shotType:Int = 1;
+
 	private var charge:Float = 0;
 	
 	private var _bullets:FlxGroup;
@@ -35,8 +36,8 @@ class Player extends FlxSprite
 		width = 16;
 		offset.x = 8;
 		
-		addAnimation("walkR", [5, 6, 7, 0, 1, 2, 3, 4], 12, true);
-		addAnimation("walkL", [10, 9, 8, 15, 14, 13, 12, 11], 12, true);
+		addAnimation("walkR", [5, 6, 7, 0, 1, 2, 3, 4], 16, true);
+		addAnimation("walkL", [10, 9, 8, 15, 14, 13, 12, 11], 16, true);
 		
 		addAnimation("idleR", [0], 8, true);
 		addAnimation("idleL", [15], 8, true);
@@ -52,20 +53,44 @@ class Player extends FlxSprite
 	
 	
 	override public function update():Void
-	{	if (x > FlxG.width - 43)
-		{	x = FlxG.width - 42;
-			play("idleR");	}
-		if (x < 9)
-		{	x = 10;
-			play("idleL");	}
+	{	velocity.x = 0;										//Want a nice roll-off to stop and start really.
 		
-		velocity.x = 0;
+		
+		//*******************************************
+		//*											*
+		//*		WALKING								*
+		//*											*
+		//*******************************************
+		
+		if (FlxG.keys.RIGHT)
+		{	velocity.x = 100;
+			play("walkR");
+			_aim = "R";	}
+		if (FlxG.keys.LEFT)
+		{	velocity.x = -100;
+			play("walkL");
+			_aim = "L";	}
+		if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
+		{	velocity.x = 0;
+			play("idleL");
+		}
+		
+		if (FlxG.keys.justReleased("RIGHT"))
+		{	play("idleR");	}
+		if (FlxG.keys.justReleased("LEFT"))
+		{	play("idleL");	}		
+		
 		
 		//*******************************************
 		//*											*
 		//*		SHOOTING							*
 		//*											*
 		//*******************************************
+		
+		if (FlxG.keys.justReleased("ONE"))
+		{	_shotType = 1;	}
+		if (FlxG.keys.justReleased("TWO"))
+		{	_shotType = 2;	}
 		
 		if(FlxG.keys.justPressed("C"))
 		{	getMidpoint(_point);
@@ -80,11 +105,11 @@ class Player extends FlxSprite
 		}
 		
 		if (FlxG.keys.justReleased("C"))
-		{	if (charge > 1.1)
+		{	if (charge > 0.9)
 			{	getMidpoint(_point);
 				_point.x = _point.x + 9;
 				_point.y = _point.y - 3;
-				cast(_bullets_charge.recycle(S_Bullet_Charge), S_Bullet_Charge).shoot(_point, _aim);
+				cast(_bullets_charge.recycle(S_Bullet_Charge), S_Bullet_Charge).shoot(_point, _aim, _shotType);
 			}
 			charge = 0;
 		}
@@ -118,25 +143,7 @@ class Player extends FlxSprite
 		{	jumpOK = true;	}
 		
 		
-		//*******************************************
-		//*											*
-		//*		WALKING								*
-		//*											*
-		//*******************************************
 		
-		if (FlxG.keys.RIGHT)
-		{	velocity.x = 100;
-			play("walkR");
-			_aim = "R";	}
-		if (FlxG.keys.LEFT)
-		{	velocity.x = -100;
-			play("walkL");
-			_aim = "L";	}
-		
-		if (FlxG.keys.justReleased("RIGHT"))
-		{	play("idleR");	}
-		if (FlxG.keys.justReleased("LEFT"))
-		{	play("idleL");	}
 		
 		super.update();
 		

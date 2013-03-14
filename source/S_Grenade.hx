@@ -4,31 +4,16 @@ package ;
 import org.flixel.FlxSprite;
 import org.flixel.FlxPoint;
 
-class S_Bullet extends FlxSprite
+class S_Grenade extends FlxSprite
 {
-	private var speed:Int;
-	
-	public function new():Void
-	{	super();
+
+	public function new(x:Float,y:Float):Void
+	{	super(x,y);
 		
-		loadGraphic("assets/sprites/S_bullet.png", true, false, 4, 2);
+		loadGraphic("assets/sprites/Explode.png", true, false, 32, 32);
 		
-		
-		addAnimation("flashing", [0,1,2], 6, true);
-		play("flashing");
-		
-		speed = 600;							//800
-		
-	}
-	
-	override public function update():Void
-	{	if (x > 1200 || x < -400 || y > 600 || y < -400)
-		{	kill;	}
-		
-		if(touching != 0)
-		{	exists = false;	}
-		
-		
+		addAnimation("idle", [0, 1, 2, 3, 4], 6, false);
+		play("idle");
 		
 	}
 
@@ -41,6 +26,7 @@ class S_Bullet extends FlxSprite
 		solid = false;
 	}
 	
+	/*
 	public function shoot(Location:FlxPoint, Aim:String):Void
 	{	super.reset(Location.x - width / 2, Location.y - height / 2);
 		solid = true;
@@ -52,19 +38,8 @@ class S_Bullet extends FlxSprite
 		}
 		
 	}
+	*/
 	
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
