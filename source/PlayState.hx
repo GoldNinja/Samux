@@ -1,5 +1,5 @@
 package;
-/** @author Gold_Ninja */
+/* @author Gold_Ninja */
 
 import nme.Assets;
 import nme.Lib;
@@ -24,6 +24,7 @@ class PlayState extends FlxState
 	private var _bullets:FlxGroup;
 	private var _bullets_charge:FlxGroup;
 	private var _bullets_explode:FlxGroup;
+	
 	
 	
 	private var _bullets_all:FlxGroup;
@@ -57,12 +58,13 @@ class PlayState extends FlxState
 		_bullets_charge.maxSize = 20;
 		add(_bullets_charge);
 		
-		_bullets_explode = new FlxGroup();
+		_bullets_explode = new FlxGroup();								//Not added to _bullets_all group
 		_bullets_explode.maxSize = 10;
 		add(_bullets_explode);
 		
 		player = new Player(200, 160, _bullets, _bullets_charge);
 		add(player);
+		
 		
 		
 		/*TileMap of stuff that goes over the player
@@ -89,7 +91,6 @@ class PlayState extends FlxState
 
 	override public function update():Void
 	{	
-		
 		if (FlxG.keys.justReleased("G"))						//TEMP STUFF FOR FAFFING ABOUT
 		{	grain.visible = !grain.visible;	}
 		
@@ -99,15 +100,26 @@ class PlayState extends FlxState
 		{	FlxG.timeScale = 1;	}
 		
 		
-		
-		
-		
-		
 		FlxG.collide(player, map);
-		FlxG.collide(_bullets_all, map);
+		FlxG.collide(_bullets_all, map, doExplode);
+		
 		super.update();
 		
 	}
+	
+	private function doExplode(Sprite1:FlxObject, Sprite2:FlxObject):Void
+	{	if (Std.is(Sprite1, S_Bullet_Charge))
+		{	var _point = new FlxPoint( -64, -64);
+			_point.x = Sprite1.x;
+			_point.y = Sprite1.y;
+			cast(_bullets_explode.recycle(S_Grenade), S_Grenade).shoot(_point);
+		}
+		Sprite1.kill();
+		
+		
+	}
+	
+	
 	
 	
 }

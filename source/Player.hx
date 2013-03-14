@@ -1,5 +1,5 @@
 package ;
-/** @author Gold_Ninja */
+/* @author Gold_Ninja */
 
 import org.flixel.FlxBasic;
 import org.flixel.FlxGroup;
