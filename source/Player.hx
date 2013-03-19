@@ -27,6 +27,8 @@ class Player extends FlxSprite
 	{	super(px, py);
 		acceleration.y = 1200;
 		maxVelocity.y = 250;
+		maxVelocity.x = 100;
+		drag.x = 650;
 		
 		_bullets = Bullets;
 		_bullets_charge = Chargeshot;
@@ -53,7 +55,7 @@ class Player extends FlxSprite
 	
 	
 	override public function update():Void
-	{	velocity.x = 0;										//Want a nice roll-off to stop and start really.
+	{	acceleration.x = 0;
 		
 		
 		//*******************************************
@@ -62,18 +64,16 @@ class Player extends FlxSprite
 		//*											*
 		//*******************************************
 		
-		if (FlxG.keys.RIGHT)
-		{	velocity.x = 100;
+		if (FlxG.keys.RIGHT && !FlxG.keys.LEFT)
+		{	acceleration.x = drag.x;
 			play("walkR");
 			_aim = "R";	}
-		if (FlxG.keys.LEFT)
-		{	velocity.x = -100;
+		if (FlxG.keys.LEFT && !FlxG.keys.RIGHT)
+		{	acceleration.x = -drag.x;
 			play("walkL");
 			_aim = "L";	}
 		if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
-		{	velocity.x = 0;
-			play("idleL");
-		}
+		{	play("idleL");	}											//Needs idle_facing anim
 		
 		if (FlxG.keys.justReleased("RIGHT"))
 		{	play("idleR");	}
