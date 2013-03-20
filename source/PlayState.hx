@@ -55,7 +55,7 @@ class PlayState extends FlxState
 		add(_bullets);
 		
 		_bullets_charge = new FlxGroup();
-		_bullets_charge.maxSize = 20;
+		_bullets_charge.maxSize = 10;
 		add(_bullets_charge);
 		
 		_bullets_explode = new FlxGroup();								//Not added to _bullets_all group
@@ -91,19 +91,21 @@ class PlayState extends FlxState
 
 	override public function update():Void
 	{	
-		if (FlxG.keys.justReleased("G"))						//TEMP STUFF FOR FAFFING ABOUT
+		
+		if (FlxG.keys.justReleased("G"))									//TEMP STUFF FOR FAFFING ABOUT
 		{	grain.visible = !grain.visible;	}
 		
 		if (FlxG.keys.justReleased("H"))
-		{	FlxG.timeScale = 0.5;	}
+		{	FlxG.timeScale = 0.2;	}
 		if (FlxG.keys.justReleased("J"))
 		{	FlxG.timeScale = 1;	}
 		
 		
+		super.update();
+		
 		FlxG.collide(player, map);
 		FlxG.collide(_bullets_all, map, doExplode);
 		
-		super.update();
 		
 	}
 	

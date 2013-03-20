@@ -13,12 +13,11 @@ class S_Bullet extends FlxSprite
 		
 		loadGraphic("assets/sprites/S_bullet.png", true, false, 4, 2);
 		
-		
 		addAnimation("flashing", [0,1,2], 6, true);
 		play("flashing");
 		
 		speed = 600;							//800
-		
+		solid = true;
 	}
 	
 	override public function update():Void

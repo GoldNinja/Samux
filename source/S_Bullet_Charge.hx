@@ -35,7 +35,7 @@ class S_Bullet_Charge extends FlxSprite
 			}
 		}
 		
-		if (velocity.y != 0)
+		if (velocity.y != 0)										//Parabola for grenade
 		{	acceleration.y = 120;
 			if (velocity.x > 0)
 			{	acceleration.x = -40;	}
@@ -57,6 +57,7 @@ class S_Bullet_Charge extends FlxSprite
 	public function shoot(Location:FlxPoint, Aim:String, _type:Int):Void
 	{	super.reset(Location.x - width / 2, Location.y - height / 2);
 		solid = true;
+		acceleration.y = 0;
 		
 		switch(_type)
 		{	case 1:													//Charge Shot
@@ -70,6 +71,9 @@ class S_Bullet_Charge extends FlxSprite
 				}
 			case 2:													//Grenade Shot
 				velocity.y = -60;
+				offset.x = 1;
+				width = 4;
+				height = 4;
 				switch(Aim)
 				{	case "L":
 						velocity.x = -speed/1.5;
