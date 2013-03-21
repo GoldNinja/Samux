@@ -15,8 +15,8 @@ class S_Bullet_Charge extends FlxSprite
 		
 		loadGraphic("assets/sprites/S_bullet_charge.png", true, false, 8, 4);
 		
-		addAnimation("flashingR", [0, 1, 2], 6, true);
-		addAnimation("flashingL", [3,4,5], 6, true);
+		addAnimation("chargeR", [0, 1, 2], 6, true);
+		addAnimation("chargeL", [3,4,5], 6, true);
 		addAnimation("grenade", [6,7,8], 6, true);
 		
 		speed = 300;
@@ -25,7 +25,7 @@ class S_Bullet_Charge extends FlxSprite
 	
 	override public function update():Void
 	{	if (x > 1200 || x < -400 || y > 600 || y < -400)
-		{	kill;	}
+		{	exists = false;	}
 		
 		if(touching != 0)
 		{	exists = false;
@@ -64,10 +64,10 @@ class S_Bullet_Charge extends FlxSprite
 				switch(Aim)
 				{	case "L":
 						velocity.x = -speed;
-						play("flashingL");
+						play("chargeL");
 					case "R":
 						velocity.x = speed;
-						play("flashingR");
+						play("chargeR");
 				}
 			case 2:													//Grenade Shot
 				velocity.y = -60;

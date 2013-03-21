@@ -3,9 +3,10 @@ package ;
 
 import org.flixel.FlxSprite;
 import org.flixel.FlxPoint;
+import org.flixel.FlxG;
 
-class S_Grenade extends FlxSprite
-{
+class Explode_Grenade extends FlxSprite
+{	private var _timer:Float = 0;
 
 	public function new(x:Float,y:Float):Void
 	{	super(x,y);
@@ -29,12 +30,19 @@ class S_Grenade extends FlxSprite
 	
 	public function shoot(Location:FlxPoint):Void
 	{	super.reset(Location.x - width / 2, Location.y - height / 2);
-		//solid = true;
-		play("idle");
-		
+		solid = true;
+		play("idle", true);
+		_timer = 0;
 		
 	}
 	
+	override public function update():Void
+	{	_timer += FlxG.elapsed;
+		
+		if (_timer > 0.5)
+		{	exists = false;	}
+		
+	}
 	
 	
 	

@@ -12,6 +12,8 @@ class Player extends FlxSprite
 {	private var jump:Float;
 	private var jumpLimit:Float = 0.10;
 	private var jumpOK:Bool = true;
+	private var drag_floor:Int = 650;
+	private var drag_air:Int = 65;
 	
 	private var _aim:String = "R";
 	private var _shotType:Int = 1;
@@ -28,7 +30,7 @@ class Player extends FlxSprite
 		acceleration.y = 1200;
 		maxVelocity.y = 250;
 		maxVelocity.x = 100;
-		drag.x = 650;
+		drag.x = drag_floor;
 		
 		_bullets = Bullets;
 		_bullets_charge = Chargeshot;
@@ -64,16 +66,34 @@ class Player extends FlxSprite
 		//*											*
 		//*******************************************
 		
-		if (FlxG.keys.RIGHT && !FlxG.keys.LEFT)
-		{	acceleration.x = drag.x;
-			play("walkR");
-			_aim = "R";	}
-		if (FlxG.keys.LEFT && !FlxG.keys.RIGHT)
-		{	acceleration.x = -drag.x;
-			play("walkL");
-			_aim = "L";	}
+		if (this.isTouching(FlxObject.FLOOR))
+		{	drag.x = drag_floor;
+			if (FlxG.keys.RIGHT && !FlxG.keys.LEFT)
+			{	acceleration.x = drag.x;
+				play("walkR");
+				_aim = "R";	}
+			if (FlxG.keys.LEFT && !FlxG.keys.RIGHT)
+			{	acceleration.x = -drag.x;
+				play("walkL");
+				_aim = "L";	}
+		}
+		else
+		{	drag.x = drag_air;
+			if (FlxG.keys.RIGHT && !FlxG.keys.LEFT)
+			{	acceleration.x = drag.x * 6;
+				play("walkR");
+				_aim = "R";	}
+			if (FlxG.keys.LEFT && !FlxG.keys.RIGHT)
+			{	acceleration.x = -drag.x * 6;
+				play("walkL");
+				_aim = "L";	}
+		}
+			
+			
+			
+			
 		if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
-		{	play("idleL");	}											//Needs idle_facing anim
+		{	play("idleL");	}											//Omake: idle_facing_screen anim
 		
 		if (FlxG.keys.justReleased("RIGHT"))
 		{	play("idleR");	}
@@ -124,7 +144,7 @@ class Player extends FlxSprite
 		{	jump += FlxG.elapsed;
 			if (jump > jumpLimit)
 			{	jump = -1;
-				jumpOK = false; }
+				jumpOK = false;	}
 		}
 		else
 		{	jump = -1;	}

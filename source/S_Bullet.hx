@@ -22,7 +22,7 @@ class S_Bullet extends FlxSprite
 	
 	override public function update():Void
 	{	if (x > 1200 || x < -400 || y > 600 || y < -400)
-		{	kill;	}
+		{	exists = false;	}
 		
 		if(touching != 0)
 		{	exists = false;	}

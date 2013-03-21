@@ -114,7 +114,7 @@ class PlayState extends FlxState
 		{	var _point = new FlxPoint( -64, -64);
 			_point.x = Sprite1.x;
 			_point.y = Sprite1.y;
-			cast(_bullets_explode.recycle(S_Grenade), S_Grenade).shoot(_point);
+			cast(_bullets_explode.recycle(Explode_Grenade), Explode_Grenade).shoot(_point);
 		}
 		Sprite1.kill();
 		
