@@ -111,9 +111,7 @@ class PlayState extends FlxState
 	
 	private function doExplode(Sprite1:FlxObject, Sprite2:FlxObject):Void
 	{	if (Std.is(Sprite1, S_Bullet_Charge))
-		{	var _point = new FlxPoint( -64, -64);
-			_point.x = Sprite1.x;
-			_point.y = Sprite1.y;
+		{	var _point = new FlxPoint( Sprite1.x + 4, Sprite1.y);
 			cast(_bullets_explode.recycle(Explode_Grenade), Explode_Grenade).shoot(_point);
 		}
 		Sprite1.kill();
