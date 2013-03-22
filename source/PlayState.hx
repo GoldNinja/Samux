@@ -20,14 +20,18 @@ class PlayState extends FlxState
 	private var fpsText:FlxText;
 	private var map:FlxTilemap;
 	private var map_bg:FlxTilemap;
+	//private var map_over:FlxTilemap;
 	
 	private var _bullets:FlxGroup;
 	private var _bullets_charge:FlxGroup;
 	private var _bullets_explode:FlxGroup;
 	
-	
-	
 	private var _bullets_all:FlxGroup;
+	
+	public static var variable:Int;
+	private var dev_text:FlxText;
+	
+	
 	
 	
 	override public function create():Void
@@ -67,9 +71,9 @@ class PlayState extends FlxState
 		
 		
 		
-		/*TileMap of stuff that goes over the player
-		map = new FlxTilemap();
-		map.loadMap(Assets.getText("assets/csv/lvl_1.csv"), "assets/sprites/Tiles01.png", 16, 16, 0, 0, 1, 1);
+		/*																TileMap of stuff that goes over the player
+		map_over = new FlxTilemap();
+		map_over.loadMap(Assets.getText("assets/csv/lvl_1.csv"), "assets/sprites/Tiles01.png", 16, 16, 0, 0, 1, 1);
 		add(map);
 		*/
 		
@@ -81,6 +85,8 @@ class PlayState extends FlxState
 		_bullets_all.add(_bullets_charge);
 		add(_bullets_all);
 		
+		dev_text = new FlxText(5, 5, 200, "");
+		add(dev_text);
 		
 	}
 	
@@ -99,6 +105,14 @@ class PlayState extends FlxState
 		{	FlxG.timeScale = 0.2;	}
 		if (FlxG.keys.justReleased("J"))
 		{	FlxG.timeScale = 1;	}
+		
+		if (FlxG.keys.justReleased("O"))
+		{	variable = variable - 10;
+			dev_text.text = "-10"; }
+		if (FlxG.keys.justReleased("P"))
+		{	variable = variable + 10;
+			dev_text.text = "-10"; }
+		
 		
 		
 		super.update();
