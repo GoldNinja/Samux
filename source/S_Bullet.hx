@@ -16,7 +16,7 @@ class S_Bullet extends FlxSprite
 		addAnimation("flashing", [0,1,2], 6, true);
 		play("flashing");
 		
-		speed = 600;							//800
+		speed = 400;							//800
 		solid = true;
 	}
 	

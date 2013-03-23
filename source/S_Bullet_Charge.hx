@@ -28,12 +28,7 @@ class S_Bullet_Charge extends FlxSprite
 		{	exists = false;	}
 		
 		if(touching != 0)
-		{	exists = false;
-			if (velocity.y != 0)
-			{	
-				//explodes go here?
-			}
-		}
+		{	exists = false;	}
 		
 		if (velocity.y != 0)										//Parabola for grenade
 		{	acceleration.y = 120;

@@ -28,7 +28,7 @@ class Player extends FlxSprite
 	public function new(px:Int,py:Int,Bullets:FlxGroup,Chargeshot:FlxGroup):Void
 	{	super(px, py);
 		acceleration.y = 1200;
-		maxVelocity.y = 250;
+		maxVelocity.y = 215;
 		maxVelocity.x = 100;
 		drag.x = drag_floor;
 		
@@ -53,8 +53,6 @@ class Player extends FlxSprite
 	{	super.destroy();
 		_bullets = null;
 	}
-	
-	
 	
 	override public function update():Void
 	{	acceleration.x = 0;
@@ -88,9 +86,6 @@ class Player extends FlxSprite
 				play("walkL");
 				_aim = "L";	}
 		}
-			
-			
-			
 			
 		if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
 		{	play("idleL");	}											//Omake: idle_facing_screen anim
@@ -151,7 +146,7 @@ class Player extends FlxSprite
 		
 		if (jump > 0)
 		{	if (jump < 0.05)
-			{	velocity.y = -maxVelocity.y*0.65;	}
+			{	velocity.y = -maxVelocity.y * 0.65;	}
 			else
 			{	velocity.y = -maxVelocity.y;	}
 		}

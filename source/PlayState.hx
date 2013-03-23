@@ -108,11 +108,13 @@ class PlayState extends FlxState
 		
 		if (FlxG.keys.justReleased("O"))
 		{	variable = variable - 10;
-			dev_text.text = "-10"; }
+			dev_text.text = "-10";
+			dev_text.alpha = 1; }
 		if (FlxG.keys.justReleased("P"))
 		{	variable = variable + 10;
-			dev_text.text = "-10"; }
-		
+			dev_text.text = "+10";
+			dev_text.alpha = 1;	}
+		dev_text.alpha -= FlxG.elapsed / 2;
 		
 		
 		super.update();
