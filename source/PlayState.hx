@@ -3,6 +3,7 @@ package;
 
 import nme.Assets;
 import nme.Lib;
+import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
 import org.flixel.FlxObject;
@@ -31,7 +32,7 @@ class PlayState extends FlxState
 	public static var variable:Int;
 	private var dev_text:FlxText;
 	
-	
+	private var camera:FlxCamera;
 	
 	
 	override public function create():Void
@@ -88,12 +89,14 @@ class PlayState extends FlxState
 		dev_text = new FlxText(5, 5, 200, "");
 		add(dev_text);
 		
+		camera = new FlxCamera(0, 0, 800, 400);
+		add(camera);
+		camera.follow(player);
+		
 	}
 	
 	override public function destroy():Void
-	{
-		super.destroy();
-	}
+	{	super.destroy();	}
 
 	override public function update():Void
 	{	
