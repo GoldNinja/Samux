@@ -3,10 +3,12 @@ package ;
 
 import org.flixel.FlxSprite;
 import org.flixel.FlxPoint;
+import org.flixel.FlxG;
 
 class S_Bullet extends FlxSprite
 {
 	private var speed:Int;
+	private var killTimer:Float = 5;
 	
 	public function new():Void
 	{	super();
@@ -21,7 +23,8 @@ class S_Bullet extends FlxSprite
 	}
 	
 	override public function update():Void
-	{	if (x > 1200 || x < -400 || y > 600 || y < -400)
+	{	killTimer -= FlxG.elapsed;
+		if (killTimer < 0)
 		{	exists = false;	}
 		
 		if(touching != 0)
@@ -42,6 +45,7 @@ class S_Bullet extends FlxSprite
 	
 	public function shoot(Location:FlxPoint, Aim:String):Void
 	{	super.reset(Location.x - width / 2, Location.y - height / 2);
+		killTimer = 5;
 		solid = true;
 		switch(Aim)
 		{	case "L":

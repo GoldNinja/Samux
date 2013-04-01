@@ -165,7 +165,7 @@ class Player extends FlxSprite
 		
 		
 		
-		if (y > 500)							//Temp reset for falling off
+		if (y > 800)							//Temp reset for falling off
 		{
 			y = 100;
 		}

@@ -3,11 +3,13 @@ package ;
 
 import org.flixel.FlxSprite;
 import org.flixel.FlxPoint;
+import org.flixel.FlxG;
 
 class S_Bullet_Charge extends FlxSprite
 {
 	private var speed:Int;
 	private var bulletType:Int;
+	private var killTimer:Float = 5;
 	
 	
 	public function new():Void
@@ -24,13 +26,14 @@ class S_Bullet_Charge extends FlxSprite
 	}
 	
 	override public function update():Void
-	{	if (x > 1200 || x < -400 || y > 600 || y < -400)
+	{	killTimer -= FlxG.elapsed;
+		if (killTimer < 0)
 		{	exists = false;	}
 		
 		if(touching != 0)
 		{	exists = false;	}
 		
-		if (velocity.y != 0)										//Parabola for grenade
+		if (velocity.y != 0)										//Parabola for grenade. Be careful it doesn't come back on itself
 		{	acceleration.y = 120;
 			if (velocity.x > 0)
 			{	acceleration.x = -40;	}
@@ -51,11 +54,13 @@ class S_Bullet_Charge extends FlxSprite
 	
 	public function shoot(Location:FlxPoint, Aim:String, _type:Int):Void
 	{	super.reset(Location.x - width / 2, Location.y - height / 2);
+		killTimer = 5;
 		solid = true;
 		acceleration.y = 0;
 		
 		switch(_type)
 		{	case 1:													//Charge Shot
+				width = 8;
 				switch(Aim)
 				{	case "L":
 						velocity.x = -speed;
@@ -68,7 +73,6 @@ class S_Bullet_Charge extends FlxSprite
 				velocity.y = -60;
 				offset.x = 1;
 				width = 4;
-				height = 4;
 				switch(Aim)
 				{	case "L":
 						velocity.x = -speed/1.5;

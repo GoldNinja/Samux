@@ -3,6 +3,7 @@ package;
 
 import nme.Assets;
 import nme.Lib;
+import org.flixel.addons.FlxBackdrop;
 import org.flixel.FlxCamera;
 import org.flixel.FlxG;
 import org.flixel.FlxGroup;
@@ -15,7 +16,7 @@ import org.flixel.FlxTilemap;
 
 class PlayState extends FlxState
 {
-	private var bg_stars:FlxSprite;
+	private var bg_stars:FlxBackdrop;
 	private var player:Player;
 	private var grain:FlxSprite;
 	private var fpsText:FlxText;
@@ -29,10 +30,13 @@ class PlayState extends FlxState
 	
 	private var _bullets_all:FlxGroup;
 	
+	private var _hud:FlxGroup;
+	
+	private var hud_scroll:FlxPoint;
+	
 	public static var variable:Int;
 	private var dev_text:FlxText;
 	
-	private var camera:FlxCamera;
 	
 	
 	override public function create():Void
@@ -44,7 +48,7 @@ class PlayState extends FlxState
 		#end		
 		FlxG.mouse.show();
 		
-		bg_stars = new FlxSprite(0, 0, "assets/sprites/BG_Stars.png");
+		bg_stars = new FlxBackdrop("assets/sprites/BG_Stars.png", 1, 1, true, true);
 		add(bg_stars);
 		
 		map_bg = new FlxTilemap();
@@ -70,7 +74,10 @@ class PlayState extends FlxState
 		player = new Player(200, 160, _bullets, _bullets_charge);
 		add(player);
 		
-		
+		_bullets_all = new FlxGroup();									//Helper FlxGroup for all bullets to collide with world.
+		_bullets_all.add(_bullets);
+		_bullets_all.add(_bullets_charge);
+		add(_bullets_all);
 		
 		/*																TileMap of stuff that goes over the player
 		map_over = new FlxTilemap();
@@ -78,20 +85,24 @@ class PlayState extends FlxState
 		add(map);
 		*/
 		
+		hud_scroll = new FlxPoint(0,0);
+		
 		grain = new FlxSprite(0, 0, "assets/sprites/grain.png");
 		add(grain);
-		
-		_bullets_all = new FlxGroup();									//Helper FlxGroup for all bullets to collide with world.
-		_bullets_all.add(_bullets);
-		_bullets_all.add(_bullets_charge);
-		add(_bullets_all);
+		grain.scrollFactor = hud_scroll;
 		
 		dev_text = new FlxText(5, 5, 200, "");
 		add(dev_text);
+		dev_text.scrollFactor = hud_scroll;
 		
-		camera = new FlxCamera(0, 0, 800, 400);
-		add(camera);
-		camera.follow(player);
+		_hud = new FlxGroup();
+		_hud.add(grain);
+		_hud.add(dev_text);
+		
+		
+		FlxG.camera.setBounds(0, 0, map.width, map.height);
+		FlxG.camera.follow(player);
+		FlxG.camera.deadzone.height = 70;
 		
 	}
 	
@@ -130,7 +141,7 @@ class PlayState extends FlxState
 	
 	private function doExplode(Sprite1:FlxObject, Sprite2:FlxObject):Void
 	{	if (Std.is(Sprite1, S_Bullet_Charge))
-		{	var _point = new FlxPoint( Sprite1.x + 4, Sprite1.y);
+		{	var _point = new FlxPoint(Sprite1.x + 4, Sprite1.y);
 			cast(_bullets_explode.recycle(Explode_Grenade), Explode_Grenade).shoot(_point);
 		}
 		Sprite1.kill();
