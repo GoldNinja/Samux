@@ -35,16 +35,16 @@ class Player extends FlxSprite
 		_bullets = Bullets;
 		_bullets_charge = Chargeshot;
 		
-		loadGraphic("assets/sprites/Samux.png", true, false, 32, 32);
+		loadGraphic("assets/sprites/New Samux.png", true, false, 64, 64);
 		
-		width = 16;
+		width = 32;
 		offset.x = 8;
 		
-		addAnimation("walkR", [5, 6, 7, 0, 1, 2, 3, 4], 16, true);
-		addAnimation("walkL", [10, 9, 8, 15, 14, 13, 12, 11], 16, true);
+		addAnimation("walkR", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0], 16, true);
+		addAnimation("walkL", [22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 23], 16, true);
 		
 		addAnimation("idleR", [0], 8, true);
-		addAnimation("idleL", [15], 8, true);
+		addAnimation("idleL", [23], 8, true);
 		
 		play("idleR");
 	}

@@ -48,15 +48,15 @@ class PlayState extends FlxState
 		#end		
 		FlxG.mouse.show();
 		
-		bg_stars = new FlxBackdrop("assets/sprites/BG_Stars.png", 1, 1, true, true);
+		bg_stars = new FlxBackdrop("assets/sprites/BG_Stars.png", 0.1, 1, true, true);
 		add(bg_stars);
 		
 		map_bg = new FlxTilemap();
-		map_bg.loadMap(Assets.getText("assets/csv/lvl_1_bg.csv"), "assets/sprites/Tiles01_bg.png", 64, 64, 0, 0, 1, 1);
+		map_bg.loadMap(Assets.getText("assets/csv/mapCSV_Lvl1_BG.csv"), "assets/sprites/Tiles01_bg.png", 64, 64, 0, 0, 1, 1);
 		add(map_bg);
 		
 		map = new FlxTilemap();
-		map.loadMap(Assets.getText("assets/csv/lvl_1.csv"), "assets/sprites/Tiles01.png", 16, 16, 0, 0, 1, 1);
+		map.loadMap(Assets.getText("assets/csv/mapCSV_Lvl1_Floor.csv"), "assets/sprites/Tiles01.png", 16, 16, 0, 0, 1, 1);
 		add(map);
 		
 		_bullets = new FlxGroup();
@@ -100,7 +100,7 @@ class PlayState extends FlxState
 		_hud.add(dev_text);
 		
 		
-		FlxG.camera.setBounds(0, 0, map.width, map.height);
+		FlxG.camera.setBounds(0, 0, map.width, map.height, true);
 		FlxG.camera.follow(player);
 		FlxG.camera.deadzone.height = 70;
 		
