@@ -30,8 +30,7 @@ class S_Bullet extends FlxSprite
 		if(touching != 0)
 		{	exists = false;	}
 		
-		
-		
+		super.update();
 	}
 
 	override public function kill():Void

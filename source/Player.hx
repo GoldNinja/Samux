@@ -27,10 +27,10 @@ class Player extends FlxSprite
 	
 	public function new(px:Int,py:Int,Bullets:FlxGroup,Chargeshot:FlxGroup):Void
 	{	super(px, py);
-		acceleration.y = 1200;
-		maxVelocity.y = 215;
 		maxVelocity.x = 100;
+		maxVelocity.y = 215;
 		drag.x = drag_floor;
+		
 		
 		_bullets = Bullets;
 		_bullets_charge = Chargeshot;
@@ -46,7 +46,11 @@ class Player extends FlxSprite
 		addAnimation("idleR", [0], 8, true);
 		addAnimation("idleL", [23], 8, true);
 		
-		play("idleR");
+		addAnimation("idleFR", [24], 8, true);
+		addAnimation("idleFL", [25], 8, true);
+		
+		
+		play("idleFR");
 	}
 	
 	override public function destroy():Void
@@ -68,22 +72,37 @@ class Player extends FlxSprite
 		{	drag.x = drag_floor;
 			if (FlxG.keys.RIGHT && !FlxG.keys.LEFT)
 			{	acceleration.x = drag.x;
-				play("walkR");
+				if (PlayState.zeroG)
+				{	play("idleFR");	}
+				else
+				{	play("walkR");	}
+				
 				_aim = "R";	}
+				
 			if (FlxG.keys.LEFT && !FlxG.keys.RIGHT)
 			{	acceleration.x = -drag.x;
-				play("walkL");
+				if (PlayState.zeroG)
+				{	play("idleFL");	}
+				else
+				{	play("walkL");	}
+				
 				_aim = "L";	}
 		}
 		else
 		{	drag.x = drag_air;
 			if (FlxG.keys.RIGHT && !FlxG.keys.LEFT)
 			{	acceleration.x = drag.x * 6;
-				play("walkR");
+				if (PlayState.zeroG)
+				{	play("idleFR");	}
+				else
+				{	play("walkR");	}
 				_aim = "R";	}
 			if (FlxG.keys.LEFT && !FlxG.keys.RIGHT)
 			{	acceleration.x = -drag.x * 6;
-				play("walkL");
+				if (PlayState.zeroG)
+				{	play("idleFL");	}
+				else
+				{	play("walkL");	}
 				_aim = "L";	}
 		}
 			
@@ -91,9 +110,44 @@ class Player extends FlxSprite
 		{	play("idleL");	}											//Omake: idle_facing_screen anim
 		
 		if (FlxG.keys.justReleased("RIGHT"))
-		{	play("idleR");	}
+		{	if (PlayState.zeroG)
+			{	play("idleFR");	}
+			else
+			{	play("idleR");	}
+		}
 		if (FlxG.keys.justReleased("LEFT"))
-		{	play("idleL");	}		
+		{	if (PlayState.zeroG)
+			{	play("idleFL");	}
+			else
+			{	play("idleL");	}
+		}
+		
+		
+		//*******************************************
+		//*											*
+		//*		FLOATING							*
+		//*											*
+		//*******************************************
+		
+		if (PlayState.zeroG)
+		{	drag.x = drag.y = drag_air;
+			maxVelocity.x = maxVelocity.y = 150;
+			acceleration.y = 0;
+			if (FlxG.keys.UP && !FlxG.keys.DOWN)
+			{	acceleration.y = -drag_air * 6;	}
+			if (FlxG.keys.DOWN && !FlxG.keys.UP)
+			{	acceleration.y = drag_air * 6;	}
+		}
+		else
+		{	drag.x = drag_floor;
+			acceleration.y = 1200;
+			drag.y = 0;
+			maxVelocity.x = 100;
+			maxVelocity.y = 215;
+		}
+		
+		
+		
 		
 		
 		//*******************************************

@@ -22,6 +22,7 @@ class PlayState extends FlxState
 	private var fpsText:FlxText;
 	private var map:FlxTilemap;
 	private var map_bg:FlxTilemap;
+	private var map_slope:FlxTilemap;
 	//private var map_over:FlxTilemap;
 	
 	private var _bullets:FlxGroup;
@@ -33,6 +34,9 @@ class PlayState extends FlxState
 	private var _hud:FlxGroup;
 	
 	private var hud_scroll:FlxPoint;
+	
+	public static var zeroG:Bool = true;
+	
 	
 	public static var variable:Int;
 	private var dev_text:FlxText;
@@ -59,6 +63,14 @@ class PlayState extends FlxState
 		map.loadMap(Assets.getText("assets/csv/mapCSV_Lvl1_Floor.csv"), "assets/sprites/Tiles01.png", 16, 16, 0, 0, 1, 1);
 		add(map);
 		
+		map_slope = new FlxTilemap();
+		map_slope.loadMap(Assets.getText("assets/csv/mapCSV_Lvl1_Slope.csv"), "assets/sprites/Tiles01_slope.png", 16, 16, 0, 0, 1, 1);
+		add(map_slope);
+		
+		
+		
+		
+		
 		_bullets = new FlxGroup();
 		_bullets.maxSize = 30;
 		add(_bullets);
@@ -71,7 +83,7 @@ class PlayState extends FlxState
 		_bullets_explode.maxSize = 10;
 		add(_bullets_explode);
 		
-		player = new Player(200, 160, _bullets, _bullets_charge);
+		player = new Player(300, 260, _bullets, _bullets_charge);
 		add(player);
 		
 		_bullets_all = new FlxGroup();									//Helper FlxGroup for all bullets to collide with world.
@@ -119,6 +131,11 @@ class PlayState extends FlxState
 		{	FlxG.timeScale = 0.2;	}
 		if (FlxG.keys.justReleased("J"))
 		{	FlxG.timeScale = 1;	}
+		
+		if (FlxG.keys.justReleased("Q"))
+		{
+			zeroG = !zeroG;
+		}
 		
 		if (FlxG.keys.justReleased("O"))
 		{	variable = variable - 10;

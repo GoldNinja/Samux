@@ -42,6 +42,7 @@ class Explode_Grenade extends FlxSprite
 		if (_timer > 0.5)
 		{	exists = false;	}
 		
+		super.update();
 	}
 	
 	

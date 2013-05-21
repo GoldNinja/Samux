@@ -33,6 +33,12 @@ class S_Bullet_Charge extends FlxSprite
 		if(touching != 0)
 		{	exists = false;	}
 		
+		
+		if(PlayState.zeroG)
+		{
+			velocity.y = 0;
+		}
+		else
 		if (velocity.y != 0)										//Parabola for grenade. Be careful it doesn't come back on itself
 		{	acceleration.y = 120;
 			if (velocity.x > 0)
@@ -41,6 +47,7 @@ class S_Bullet_Charge extends FlxSprite
 			{	acceleration.x = 40;	}
 		}
 		
+		super.update();
 	}
 
 	override public function kill():Void
@@ -70,7 +77,10 @@ class S_Bullet_Charge extends FlxSprite
 						play("chargeR");
 				}
 			case 2:													//Grenade Shot
-				velocity.y = -60;
+				if (PlayState.zeroG)
+				{	velocity.y = 0;	}
+				else
+				{	velocity.y = -60;	}
 				offset.x = 1;
 				width = 4;
 				switch(Aim)
