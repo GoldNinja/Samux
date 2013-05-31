@@ -70,7 +70,6 @@ class PlayState extends FlxState
 		
 		
 		
-		
 		_bullets = new FlxGroup();
 		_bullets.maxSize = 30;
 		add(_bullets);
@@ -151,6 +150,13 @@ class PlayState extends FlxState
 		super.update();
 		
 		FlxG.collide(player, map);
+		
+		//FlxG.collide(player, map_slope, doSlope);
+		//FlxG.overlap(player, map_slope, doSlope);
+		
+		if (map_slope.getTile(Math.floor(player.x / 16), Math.floor(player.y / 16)) > 1)
+		{	doSlope();	}
+		
 		FlxG.collide(_bullets_all, map, doExplode);
 		
 		
@@ -166,6 +172,11 @@ class PlayState extends FlxState
 		
 	}
 	
+	//private function doSlope(Sprite1:FlxObject, tile_slope:FlxObject):Void
+	private function doSlope():Void
+	{	dev_text.text = "TOUCH THAT SLOPE LIKE IT'S HOT!";
+		dev_text.alpha = 1;
+	}
 	
 	
 	
